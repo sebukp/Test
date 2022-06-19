@@ -1,5 +1,4 @@
 #!/bin/bash
-############# New test branch ###########
 
 ##Disable compiler Access
 echo "Disabling compiler Access...."
