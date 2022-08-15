@@ -1,17 +1,17 @@
 #!/bin/bash
 
 ##Disable compiler Access
-echo "Disabling compiler Access...."
+echo -e "\nDisabling compiler Access....\n"
 /scripts/compilers off
 
 ##update Nameservers and contact email.
-echo "Updating Nameservers and contact email..."
+Echo -e "\nUpdating Nameservers and contact email…\n"
 whmapi1 update_contact_email contact_email=user%40example.com
 whmapi1 update_nameservers_config nameserver=ns1.uswhss.org
 whmapi1 update_nameservers_config nameserver2=ns2.uswhss.com
 
 ##Install pure-ftpd
-echo "Installing pure-ftpd..."
+echo -e "\nInstalling pure-ftpd…\n"
 /usr/local/cpanel/scripts/setupftpserver --force pure-ftpd
 
 ##Install PHP version
@@ -20,7 +20,7 @@ echo "Installing pure-ftpd..."
 # yum install ea-php81
 
 ##Install and enable "lsapi" for PHP versions.
-echo "Installing and enabling "lsapi" for PHP versions..."
+echo -e "\nInstalling and enabling "lsapi" for PHP versions…\n"
 yum remove ea-apache24-mod_ruid2
 yum install ea-apache24-mod_lsapi.x86_64
 whmapi1 php_set_handler version=ea-php71 handler=lsapi
@@ -31,18 +31,18 @@ whmapi1 php_set_handler version=ea-php80 handler=lsapi
 whmapi1 php_set_handler version=ea-php81 handler=lsapi
 
 ##Install and enable mod_security
-echo "Installing and enabling mod_security..."
+echo -e "\nInstalling and enabling mod_security…\n"
 /usr/local/cpanel/scripts/modsec_vendor add http://httpupdate.cpanel.net/modsecurity-rules/meta_OWASP3.yaml
 
 ##Disable stats programs (Awstats, Analog and Webalize)
 ##https://docs.cpanel.net/knowledge-base/cpanel-product/the-cpanel-config-file/ 
-echo "Disabling stats programs (awstats, analog stats etc)..."
+echo -e "\nDisabling stats programs (awstats, analog stats etc)...\n"
 whmapi1 set_tweaksetting key=skipawstats value=1
 whmapi1 set_tweaksetting key=skipanalog value=1
 whmapi1 set_tweaksetting key=skipwebalizer value=1
 
 ##Mail settings
-echo "Tweaking mail settings..."
+echo -e "\nTweaking mail settings…\n"
 whmapi1 set_tweaksetting key=maxemailsperhour value=250
 whmapi1 set_tweaksetting key=defaultmailaction value=fail
 whmapi1 set_tweaksetting key=domainowner_mail_pass value=1
@@ -54,4 +54,4 @@ cd /usr/local/src/; wget https://download.configserver.com/csf.tgz; tar -zxf csf
 sed -i 's|TESTING = "1"|TESTING = "0"|g' /etc/csf/csf.conf
 csf -r
 
-echo "Done!!"
+echo -e "\nDone!!\n"
