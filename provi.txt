@@ -4,6 +4,11 @@
 echo -e "\nDisabling compiler Access....\n"
 /scripts/compilers off
 
+## Enabling shell fork bomb protection
+# echo -e "\n Enabling shell fork bomb protection....\n"
+# perl -I/usr/local/cpanel -MCpanel::LoginProfile -le ‘print [Cpanel::LoginProfile::install_profile(‘limits’)]->[1];’ 
+# service cpanel restart
+
 ##update Nameservers and contact email.
 Echo -e "\nUpdating Nameservers and contact email…\n"
 whmapi1 update_contact_email contact_email=user%40example.com
@@ -21,10 +26,8 @@ echo -e "\nInstalling pure-ftpd…\n"
 
 ##Install and enable "lsapi" for PHP versions.
 echo -e "\nInstalling and enabling "lsapi" for PHP versions…\n"
-yum remove ea-apache24-mod_ruid2
-yum install ea-apache24-mod_lsapi.x86_64
-whmapi1 php_set_handler version=ea-php71 handler=lsapi
-whmapi1 php_set_handler version=ea-php72 handler=lsapi
+yum -y remove ea-apache24-mod_ruid2
+yum -y install ea-apache24-mod_lsapi.x86_64
 whmapi1 php_set_handler version=ea-php73 handler=lsapi
 whmapi1 php_set_handler version=ea-php74 handler=lsapi
 whmapi1 php_set_handler version=ea-php80 handler=lsapi
@@ -42,6 +45,8 @@ whmapi1 set_tweaksetting key=skipanalog value=1
 whmapi1 set_tweaksetting key=skipwebalizer value=1
 
 ##Mail settings
+# https://docs.cpanel.net/knowledge-base/cpanel-product/the-cpanel-config-file/ 
+# /var/cpanel/cpanel.config 
 echo -e "\nTweaking mail settings…\n"
 whmapi1 set_tweaksetting key=maxemailsperhour value=250
 whmapi1 set_tweaksetting key=defaultmailaction value=fail
@@ -49,9 +54,22 @@ whmapi1 set_tweaksetting key=domainowner_mail_pass value=1
 whmapi1 set_tweaksetting key=eximmailtrap value=1
 whmapi1 set_tweaksetting key=email_outbound_spam_detect_action value=block
 
+whmapi1 set_tweaksetting key=emailsperdaynotify value=250
+whmapi1 set_tweaksetting key=disk_usage_include_mailman value=1
+whmapi1 set_tweaksetting key=email_send_limits_defer_cutoff value=100
+whmapi1 set_tweaksetting key=email_outbound_spam_detect_enable value=0
+whmapi1 set_tweaksetting key=email_send_limits_count_mailman value=1
+whmapi1 set_tweaksetting key=email_send_limits_max_defer_fail_percentage value=5
+whmapi1 set_tweaksetting key=email_send_limits_min_defer_fail_to_trigger_protection value=5
+whmapi1 set_tweaksetting key=smtpmailgidonly value=1
+whmapi1 set_tweaksetting key=nobodyspam value=1
+whmapi1 set_tweaksetting key=skipboxtrapper value=0
+whmapi1 set_tweaksetting key=skiphorde value=0
+
 ##Install csf
 cd /usr/local/src/; wget https://download.configserver.com/csf.tgz; tar -zxf csf.tgz; cd csf; sh install.sh;
 sed -i 's|TESTING = "1"|TESTING = "0"|g' /etc/csf/csf.conf
+sed -i 's|RESTRICT_SYSLOG = "0"|RESTRICT_SYSLOG = "3"|g' /etc/csf/csf.conf
 csf -r
 
 echo -e "\nDone!!\n"
