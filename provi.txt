@@ -12,8 +12,8 @@ echo -e "\nDisabling compiler Access....\n"
 ##update Nameservers and contact email.
 Echo -e "\nUpdating Nameservers and contact email…\n"
 whmapi1 update_contact_email contact_email=user%40example.com
-whmapi1 update_nameservers_config nameserver=ns1.uswhss.org
-whmapi1 update_nameservers_config nameserver2=ns2.uswhss.com
+whmapi1 update_nameservers_config nameserver=ns1.cprapid.com
+whmapi1 update_nameservers_config nameserver2=ns2.cprapid.com
 
 ##Install pure-ftpd
 echo -e "\nInstalling pure-ftpd…\n"
