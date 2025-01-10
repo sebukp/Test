@@ -10,10 +10,10 @@ echo -e "\nDisabling compiler Access....\n"
 # service cpanel restart
 
 ##update Nameservers and contact email.
-Echo -e "\nUpdating Nameservers and contact email…\n"
-whmapi1 update_contact_email contact_email=user%40example.com
-whmapi1 update_nameservers_config nameserver=ns1.maxdnspro.com
-whmapi1 update_nameservers_config nameserver2=ns2.maxdnspro.com
+#Echo -e "\nUpdating Nameservers and contact email…\n"
+#whmapi1 update_contact_email contact_email=user%40example.com
+#whmapi1 update_nameservers_config nameserver=ns1.maxdnspro.com
+#whmapi1 update_nameservers_config nameserver2=ns2.maxdnspro.com
 
 ##Install pure-ftpd
 echo -e "\nInstalling pure-ftpd…\n"
@@ -23,15 +23,19 @@ echo -e "\nInstalling pure-ftpd…\n"
 # yum install ea-php74
 # yum install ea-php80
 # yum install ea-php81
+yum install ea-php82
+yum install ea-php83
 
 ##Install and enable "lsapi" for PHP versions.
 echo -e "\nInstalling and enabling "lsapi" for PHP versions…\n"
 yum -y remove ea-apache24-mod_ruid2
 yum -y install ea-apache24-mod_lsapi.x86_64
-whmapi1 php_set_handler version=ea-php73 handler=lsapi
+#whmapi1 php_set_handler version=ea-php73 handler=lsapi
 whmapi1 php_set_handler version=ea-php74 handler=lsapi
 whmapi1 php_set_handler version=ea-php80 handler=lsapi
 whmapi1 php_set_handler version=ea-php81 handler=lsapi
+whmapi1 php_set_handler version=ea-php82 handler=lsapi
+whmapi1 php_set_handler version=ea-php83 handler=lsapi
 
 ##Install and enable mod_security
 echo -e "\nInstalling and enabling mod_security…\n"
