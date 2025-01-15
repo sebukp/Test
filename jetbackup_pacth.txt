@@ -4,13 +4,13 @@ cd /usr/local/jetapps/var/lib/jetbackup5/Core/Destination/S3/Client/File/
 mv FileDownload.inc FileDownload.inc.bak
 wget https://raw.githubusercontent.com/sebukp/Test/refs/heads/main/FileDownload.inc
 chmod 600 FileDownload.inc
-ll FileDownload*
+ls -l FileDownload.inc*
 
 cd /usr/local/jetapps/var/lib/jetbackup5/Core/Destination/S3/Client/
 mv Client.inc Client.inc.bak
 wget https://raw.githubusercontent.com/sebukp/Test/refs/heads/main/Client.inc
 chmod 600 Client.inc
-ll Client*
+ll Client.inc*
 
 service jetmongod restart 
 service jetbackup5d restart
